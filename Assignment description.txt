@@ -1,0 +1,35 @@
+
+ASSIGNMENT
+----------------
+Word predictor) Most modern mobile phones have some kind of word prediction software. As
+you are typing a word in a text message or an e-mail, the word predictor displays a shortlist
+of the most probable completions of the word. The list of suggestions is updated for each
+keystroke the user makes. If one of the suggestions indeed is the word you intended to type,
+you can type the word just by clicking on it, thereby saving many keystrokes.
+Such a system must have a language model to be able to suggest the next word. The task in
+this project is to
+
+1. implement word prediction using two different language models,
+a) one based on n-gram models,
+b) and one based on neural networks. The neural-network-based model can be
+implemented using a feed-forward network, as described in section 7.5 in the textbook (and
+lecture 8a), and/or an RNN as described in section 9.3 in the textbook (and lecture 8b).
+
+2. implement some simple interface to show how your word prediction works
+
+3. evaluate by computing the proportion of saved keystrokes using different models and inputs
+
+
+
+
+REPORT
+-------------------------------
+Describe your project work in a written report in English. The report should be no more than 8 pages + optional appendix with data examples, diagrams, or similar. It should typically include an introduction, background, a brief description of your implementation, method for testing/evaluation, results, conclusions, and references.
+
+Note that 8 pages is the max and not the target. Quality is more important than quantity!
+
+Please upload
+
+the report
+the code you have written + a README describing how to execute it
+any data you have collected (but not pre-existing data I can download myself)
