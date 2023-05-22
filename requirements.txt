@@ -1,4 +1,2 @@
-argparse==1.4.0
-codecs==0.7
-nltk==3.6.3
-tkinter==8.6
+argparse
+nltk
