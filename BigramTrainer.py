@@ -1,16 +1,20 @@
 # Written by Simon Lindbäck and Anton Lewander
 from collections import defaultdict
+import argparse
+import codecs
+import string
 import math
 import json
 import nltk
+import os
 
 class BigramTrainer(object):
     """
     This class constructs a bigram language model from a corpus.
     """
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self, path):
+        self.file_path = path
         self.i2w = {}
         self.w2i = {}
         self.unigram_count = defaultdict(int)
@@ -20,12 +24,8 @@ class BigramTrainer(object):
         self.laplace_smoothing = False
 
     def process_file(self):
-        with open(self.file_path) as file:
-            data = json.load(file)
-        messages = data['smsCorpus']['message']
-        text = ''
-        for i in range(len(messages)):
-            text += str(messages[i]['text']['$']).lower()
+        with open(self.file_path, 'r', encoding='utf-8') as text_file:
+            text = reader = str(text_file.read()).lower()
         try :
             self.tokens = nltk.word_tokenize(text) # Important that it is named self.tokens for the --check flag to work
         except LookupError :
@@ -65,20 +65,27 @@ class BigramTrainer(object):
 
         rows_to_print.append('-1')
         return rows_to_print
-    """
-    def read_json(path):
-        with open(path) as file:
-            data = json.load(file)
-        for i in range(len(messages)):
-            yield clean_line(messages[i]['text']['$']):
 
-    import string
-        def clean_line(self, line):
-            clean_str, clean_line = "", []
-            line = str(line).lower()
-            for word in line:
-                if not (word in string.punctuation or word in string.digits):
-                    clean_str += word
-            clean_line = clean_str.split()
-            return clean_line
+def main():
     """
+    Parse command line arguments
+    """
+    parser = argparse.ArgumentParser(description='BigramTrainer')
+    parser.add_argument('--file', '-f', type=str,  required=True, help='file from which to build the language model')
+    parser.add_argument('--destination', '-d', type=str, help='file in which to store the language model')
+
+    arguments = parser.parse_args()
+
+    if arguments.destination and not os.path.exists(arguments.destination):
+        bigram_trainer = BigramTrainer(arguments.file)
+
+        bigram_trainer.process_file()
+
+        stats = bigram_trainer.stats()
+        with codecs.open(arguments.destination, 'w', 'utf-8' ) as f:
+            for row in stats: f.write(row + '\n')
+    else:
+        print("A language model for {} already exists".format(arguments.file))
+
+if __name__ == "__main__":
+    main()
