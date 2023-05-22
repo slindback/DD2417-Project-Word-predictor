@@ -1,11 +1,18 @@
-Training commands
+Training
 -----------------
+(-f: text source file, -d: destination file)
 python BigramTrainer.py -f data/cleaned_files/Purdue_Calumet_text_Message_Corpus.txt -d data/models/Purdue_Calumet_text_Message_Corpus_model.txt
 python BigramTrainer.py -f data/cleaned_files/smsCorpus_en.txt -d data/models/smsCorpus_en_model.txt
 python BigramTrainer.py -f data/cleaned_files/reddit_casual.txt -d data/models/reddit_casual_model.txt
 
-Predictor commands
+Predictor
 -----------------
-python Predictor.py -f data/models/Purdue_Calumet_text_Message_Corpus_model.txt -w >WORD< -n >NUMBER_OF_PREDICTIONS<
-python Predictor.py -f data/models/smsCorpus_en_model.txt -w >WORD< -n >NUMBER_OF_PREDICTIONS<
-python Predictor.py -f data/models/reddit_casual_model.txt -w >WORD< -n >NUMBER_OF_PREDICTIONS<
+(-f: model file, -w: word, -n: number of predictions)
+python Predictor.py -f data/models/Purdue_Calumet_text_Message_Corpus_model.txt -w you -n 3
+python Predictor.py -f data/models/smsCorpus_en_model.txt -w you -n 3
+python Predictor.py -f data/models/reddit_casual_model.txt -w you -n 3
+
+Efficiency test
+-----------------
+(-m: models folder, -d: destination file, -i: iterations)
+efficiency_tester.py -m data/models -d efficiency_test_results.txt -i 10
