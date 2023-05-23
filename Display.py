@@ -50,7 +50,7 @@ class Display:
             label.destroy()
         self.suggestion_labels = []
 
-    # Add new suggestions
+        # Add new suggestions
         for i in range(3):
             label = tk.Label(self.suggestion_frame, text=self.suggestions[i], padx=5, pady=5)
             label.pack(side=tk.LEFT)
@@ -66,7 +66,7 @@ class Display:
         self.conversation_text.see(tk.END)
 
     def select_suggestion(self, suggestion):
-        self.entry.insert(tk.END, ' '+suggestion+' ')
+        self.entry.insert(tk.END, suggestion+' ')
         self.strokes_saved += len(suggestion)
         self.strokes_label.config(text=f"Strokes saved: {self.strokes_saved}")
         self.handle_update(None)
@@ -74,6 +74,7 @@ class Display:
     def handle_update(self, event):
         if event is None or event.keysym.lower() in VALID_KEYS:
             self.extract_last_word()
+            self.predict_current_word()
         self.check_space()
 
     def check_space(self):
@@ -82,6 +83,14 @@ class Display:
             # Perform the desired action when a new space is entered
             word = self.extract_last_word()
             self.generate_predictions(word)
+
+    def predict_current_word(self):
+        word = self.extract_last_word()
+        try:
+            self.suggestions = self.predictor.predict_current(word)
+            if self.suggestions != []:
+                self.display_suggestions()
+        except: pass
 
     def generate_predictions(self, word):
         try:

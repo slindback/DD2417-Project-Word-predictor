@@ -75,6 +75,18 @@ class Predictor(object):
             except: pass
         return predictions
 
+    def predict_current(self, w):
+        w=w.lower()
+        predictions = []
+        words = [i for i in list(self.w2i.keys()) if w in i and i.startswith(w)]
+        for word in range(self.number_of_predictions):
+            try:
+                prediction = random.choice(words)
+
+                if prediction not in predictions: predictions.append(prediction)
+            except: pass
+        return predictions
+
 def main():
     """
     Parse command line arguments
