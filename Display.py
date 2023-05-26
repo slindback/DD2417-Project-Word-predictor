@@ -8,7 +8,7 @@ class Display:
     def __init__(self, root):
         #self.predictor = Predictor("data/models/Purdue_Calumet_text_Message_Corpus_model.txt")
         #self.predictor = Predictor("data/models/smsCorpus_en_model.txt")
-        self.predictor = Predictor("data/models/reddit_casual_model.txt")
+        self.predictor = Predictor("data/Bigram_models/reddit_casual_model.txt")
         self.predictor.read_model()
         self.strokes_saved = 0
 
@@ -51,11 +51,12 @@ class Display:
         self.suggestion_labels = []
 
     # Add new suggestions
-        for i in range(3):
-            label = tk.Label(self.suggestion_frame, text=self.suggestions[i], padx=5, pady=5)
-            label.pack(side=tk.LEFT)
-            self.suggestion_labels.append(label)
-            label.bind("<Button-1>", lambda e, s=self.suggestions[i]: self.select_suggestion(s))
+        if self.suggestions != []:
+            for i in range(3):
+                label = tk.Label(self.suggestion_frame, text=self.suggestions[i], padx=5, pady=5)
+                label.pack(side=tk.LEFT)
+                self.suggestion_labels.append(label)
+                label.bind("<Button-1>", lambda e, s=self.suggestions[i]: self.select_suggestion(s))
 
     def send_message(self, event=None):
         message = self.entry.get()
@@ -84,11 +85,9 @@ class Display:
             self.generate_predictions(word)
 
     def generate_predictions(self, word):
-        try:
-            self.suggestions = self.predictor.predict(word)
-            if self.suggestions != []:
-                self.display_suggestions()
-        except: pass
+        try: self.suggestions = self.predictor.predict(word)
+        except: self.suggestions = []
+        self.display_suggestions()
 
     def extract_last_word(self):
         current_text = self.clean_word(self.entry.get())
