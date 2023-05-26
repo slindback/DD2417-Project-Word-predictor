@@ -1,4 +1,5 @@
 # Written by Simon Lindbäck and Anton Lewander
+from RNN import main as rnn_main
 from Predictor import Predictor
 import tkinter as tk
 import string
@@ -85,8 +86,17 @@ class Display:
             self.generate_predictions(word)
 
     def generate_predictions(self, word):
+        # Bigram model
+        """
         try: self.suggestions = self.predictor.predict(word)
-        except: self.suggestions = []
+        except:
+            self.suggestions = []
+        """
+        
+        # RNN model
+        sentence = self.entry.get().split()
+        self.suggestions = rnn_main(sentence,'data/cleaned_files/reddit_casual.txt','data/RNN_models/reddit_casual/reddit_casual_model_e1.pth',1)
+
         self.display_suggestions()
 
     def extract_last_word(self):
