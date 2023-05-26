@@ -1,9 +1,22 @@
-Training
+Run program
+-----------------
+pip install -r requirements.txt
+python Display.py
+
+
+Bigram training
 -----------------
 (-f: text source file, -d: destination file)
 python BigramTrainer.py -f data/cleaned_files/Purdue_Calumet_text_Message_Corpus.txt -d data/models/Purdue_Calumet_text_Message_Corpus_model.txt
 python BigramTrainer.py -f data/cleaned_files/smsCorpus_en.txt -d data/models/smsCorpus_en_model.txt
 python BigramTrainer.py -f data/cleaned_files/reddit_casual.txt -d data/models/reddit_casual_model.txt
+
+
+RNN training
+-----------------
+(-f: data source file, -d: model destination file, -e: epochs for training)
+python Main.py -f data/cleaned_files/reddit_casual.txt -d data/RNN_models/reddit_casual/reddit_casual_model_e1.pth -e 1
+
 
 Predictor
 -----------------
@@ -12,7 +25,8 @@ python Predictor.py -f data/models/Purdue_Calumet_text_Message_Corpus_model.txt 
 python Predictor.py -f data/models/smsCorpus_en_model.txt -w you -n 3
 python Predictor.py -f data/models/reddit_casual_model.txt -w you -n 3
 
-Efficiency test
+
+Efficiency test (bigram)
 -----------------
 (-m: models folder, -d: destination file, -i: iterations)
-efficiency_tester.py -m data/models -d efficiency_test_results.txt -i 10
+efficiency_tester.py -m data/models -d Bigram_efficiency_test_results.txt -i 10
