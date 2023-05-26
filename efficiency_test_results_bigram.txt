@@ -1,0 +1,6 @@
+Results from 10 iteration(s) over 116 sentences
+----------------------------------------------------------
+2261 keystrokes saved with all_concat_model.txt. Percentage: 6.09%
+1984 keystrokes saved with Purdue_Calumet_text_Message_Corpus_model.txt. Percentage: 5.34%
+2308 keystrokes saved with reddit_casual_model.txt. Percentage: 6.22%
+1793 keystrokes saved with smsCorpus_en_model.txt. Percentage: 4.83%
