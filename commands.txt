@@ -21,9 +21,9 @@ python Main.py -f data/cleaned_files/reddit_casual.txt -d data/RNN_models/reddit
 Predictor
 -----------------
 (-f: model file, -w: word, -n: number of predictions)
-python Predictor.py -f data/models/Purdue_Calumet_text_Message_Corpus_model.txt -w you -n 3
-python Predictor.py -f data/models/smsCorpus_en_model.txt -w you -n 3
-python Predictor.py -f data/models/reddit_casual_model.txt -w you -n 3
+python Predictor.py -f data/Bigram_models/Purdue_Calumet_text_Message_Corpus_model.txt -w you -n 3
+python Predictor.py -f data/Bigram_models/smsCorpus_en_model.txt -w you -n 3
+python Predictor.py -f data/Bigram_models/reddit_casual_model.txt -w you -n 3
 
 
 Efficiency test (bigram)
