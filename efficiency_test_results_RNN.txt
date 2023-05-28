@@ -1,11 +1,12 @@
-Results on 116 sentences, 1 iteration (Purdue_Calumet)
+Results on 116 sentences (Purdue_Calumet)
 ----------------------------------------------------------
-70 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e1.pth. Percentage: 1.57%
-100 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e3.pth. Percentage: 2.24%
-68 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e5.pth. Percentage: 1.52%
-67 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e10.pth. Percentage: 1.5%
+74 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e1.pth. Percentage: 1.99%
+105 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e3.pth. Percentage: 2.83%
+63 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e5.pth. Percentage: 1.70%
+104 keystrokes saved with data/RNN_models/Purdue_Calumet_model_e10.pth. Percentage: 2.8%
 
 
-Results on 116 sentences, 1 iteration (Reddit_casual)
+Results on 116 sentences (Reddit_casual)
 ----------------------------------------------------------
-110 keystrokes saved with data/RNN_models/Reddit_casual/reddit_casual_model_e1.pth. Percentage: 2.46%
+114 keystrokes saved with data/RNN_models/Reddit_casual/reddit_casual_model_e1.pth. Percentage: 3.07%
+79 keystrokes saved with data/RNN_models/Reddit_casual/reddit_casual_model_e3.pth. Percentage: 2.13%
