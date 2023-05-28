@@ -75,7 +75,7 @@ def main(input_sentence,file,destination,epochs):
 
         # Saving vocabulary to file
         dir = os.path.dirname(model_path)
-        torch.sace(word_to_index, dir+'/vocabulary.pt')
+        torch.save(word_to_index, dir+'/vocabulary.pt')
 
         # Convert words to indices
         numerical_sentences = [[word_to_index[word] for word in sentence] for sentence in sentences]
