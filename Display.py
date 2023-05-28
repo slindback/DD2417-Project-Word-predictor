@@ -17,25 +17,40 @@ class Display:
         self.root.title("Text Conversation")
 
         self.strokes_label = tk.Label(self.root, text="Strokes saved: 0")
-        self.strokes_label.pack(side=tk.TOP, anchor=tk.NE, padx=10, pady=(10, 0))
+        self.strokes_label.grid(row=0, column=1, sticky=tk.NE, padx=10, pady=(10, 0))
+
+        # Create the toggle button
+        self.toggle_button = tk.Button(self.root, text="RNN", command=self.toggle_mode)
+        self.toggle_button.grid(row=0, column=0, sticky=tk.NW, padx=(10, 0), pady=10)
+
+        # Set the initial mode
+        self.RNN_enabled = True
 
         self.conversation_text = tk.Text(self.root, height=8, width=40)  # Decrease the height value here
-        self.conversation_text.pack(side=tk.TOP, padx=10, pady=10)
+        self.conversation_text.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
 
         self.entry = tk.Entry(self.root, width=40)
-        self.entry.pack(side=tk.TOP, padx=10, pady=10)
+        self.entry.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
         self.entry.bind("<KeyRelease>", self.handle_update)
         self.entry.bind("<Return>", self.send_message)
 
         self.suggestion_frame = tk.Frame(self.root)
-        self.suggestion_frame.pack(side=tk.TOP)
+        self.suggestion_frame.grid(row=3, column=0, columnspan=2)
 
         self.suggestion_labels = []
         self.suggestions = []
 
         self.send_button = tk.Button(self.root, text="Send", command=self.send_message)
-        self.send_button.pack(side=tk.TOP, padx=10, pady=10)
+        self.send_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
+
+    def toggle_mode(self):
+        if self.RNN_enabled:
+            self.RNN_enabled = False
+            self.toggle_button.config(text="Bigram")
+        else:
+            self.RNN_enabled = True
+            self.toggle_button.config(text="RNN")
 
     def clean_word(self, word):
         clean_str = ""
@@ -53,7 +68,7 @@ class Display:
 
     # Add new suggestions
         if self.suggestions != []:
-            for i in range(3):
+            for i in range(len(self.suggestions)):
                 label = tk.Label(self.suggestion_frame, text=self.suggestions[i], padx=5, pady=5)
                 label.pack(side=tk.LEFT)
                 self.suggestion_labels.append(label)
@@ -85,17 +100,26 @@ class Display:
             word = self.extract_last_word()
             self.generate_predictions(word)
 
+    def toggle_mode(self):
+        self.RNN_enabled = not self.RNN_enabled  # Toggle the RNN_enabled variable
+
+        if self.RNN_enabled:
+            self.toggle_button.config(text="RNN")
+        else:
+            self.toggle_button.config(text="Bigram")
+
     def generate_predictions(self, word):
-        # Bigram model
-        """
-        try: self.suggestions = self.predictor.predict(word)
-        except:
-            self.suggestions = []
-        """
-        
-        # RNN model
-        sentence = self.entry.get().split()
-        self.suggestions = rnn_main(sentence,'data/cleaned_files/reddit_casual.txt','data/RNN_models/reddit_casual/reddit_casual_model_e1.pth',1)
+        if self.RNN_enabled:
+            # RNN model
+            sentence = self.entry.get().split()
+            self.suggestions = rnn_main(sentence, 'data/cleaned_files/reddit_casual.txt',
+                                         'data/RNN_models/reddit_casual/reddit_casual_model_e1.pth', 1)
+        else:
+            # Bigram model
+            try:
+                self.suggestions = self.predictor.predict(word)
+            except:
+                self.suggestions = []
 
         self.display_suggestions()
 
