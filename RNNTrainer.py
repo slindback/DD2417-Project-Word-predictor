@@ -20,11 +20,6 @@ def main():
     current_time = now.strftime("%H:%M:%S")
     print("Starting at ", current_time)
 
-    """# Call RNN.py with the command-line arguments
-    sentence = ["I","am"]
-    predicted_words = rnn_main(sentence,arguments.file,arguments.destination,arguments.epochs)
-    print("Predicted next words:", predicted_words)"""
-
     strokes_saved = 0
     total_chars = 0
 

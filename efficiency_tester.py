@@ -1,10 +1,11 @@
+from RNN import main as rnn_main
 from Predictor import Predictor
-import test_sentences_sample
+from data.sources.test_sentences_sample import sentences
 import argparse
+import sys
 import os
 
 print_list = []
-sentences = test_sentences_sample.sentences
 
 def test_efficiency(path, iterations):
     predictor = Predictor(path)
@@ -25,7 +26,7 @@ def test_efficiency(path, iterations):
     return "{} keystrokes saved with {}. Percentage: {}%".format(strokes_saved, os.path.basename(path), percentage)
 
 def main():
-    parser = argparse.ArgumentParser(description='BigramTrainer')
+    parser = argparse.ArgumentParser(description='Bigram Tester')
     parser.add_argument('--models', '-m', type=str, required=True, help='folder hosting models you want to test')
     parser.add_argument('--destination', '-d', type=str, help='file in which to store stats')
     parser.add_argument('--iterations', '-i', type=int, default=1, help='times the test should run')
@@ -37,7 +38,7 @@ def main():
         for file_name in os.listdir(arguments.models):
             if os.path.isfile(os.path.join(arguments.models, file_name)):
                 path = os.path.join(arguments.models, file_name)
-                result = test_efficiency(path,arguments.iterations)
+                result = test_efficiency_bigram(path,arguments.iterations)
                 output_file.write(result + "\n")
 
 if __name__ == "__main__":

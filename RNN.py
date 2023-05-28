@@ -32,19 +32,7 @@ class WordPredictionDataset(Dataset):
 
 
 def main(input_sentence,file,destination,epochs):
-    # Define the command-line arguments parser
-    """
-    parser = argparse.ArgumentParser(description='RNN')
-    parser.add_argument('--file', '-f', type=str, required=True, help='file used to train language model')
-    parser.add_argument('--destination', '-d', type=str, help='file in which to store the language model')
-    parser.add_argument('--epochs', '-e', type=int, default=1, help='number of epochs for training')
-    """
-
-    # Access the command-line arguments
-    """arguments = parser.parse_args(sys.argv[1:])"""
-
     # Check if the model file exists
-    """model_path = arguments.destination"""
     model_path = destination
     if os.path.exists(model_path):
         # Load the existing vocabulary and model
@@ -59,7 +47,6 @@ def main(input_sentence,file,destination,epochs):
         model.load_state_dict(torch.load(model_path))
     else:
         # Preprocessing
-        """with open(arguments.file, 'r', encoding='utf8') as file:"""
         with open(file, 'r', encoding='utf8') as file:
             lines = file.readlines()
             sentences = [line.strip().lower().split() for line in lines]
@@ -98,7 +85,6 @@ def main(input_sentence,file,destination,epochs):
         dataloader = DataLoader(dataset, batch_size=4, shuffle=True)
 
         # Training loop
-        """num_epochs = arguments.epochs"""
         num_epochs = epochs
         for epoch in range(num_epochs):
             for batch in dataloader:
