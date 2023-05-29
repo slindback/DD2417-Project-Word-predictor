@@ -3,12 +3,11 @@ from RNN import main as rnn_main
 from Predictor import Predictor
 import tkinter as tk
 import string
+import os
 VALID_KEYS = "qwertyuiopasdfghjklzxcvbnm"
 
 class Display:
     def __init__(self, root):
-        #self.predictor = Predictor("data/models/Purdue_Calumet_text_Message_Corpus_model.txt")
-        #self.predictor = Predictor("data/models/smsCorpus_en_model.txt")
         self.predictor = Predictor("data/Bigram_models/reddit_casual_model.txt")
         self.predictor.read_model()
         self.strokes_saved = 0
@@ -25,6 +24,7 @@ class Display:
 
         # Set the initial mode
         self.RNN_enabled = True
+        self.RNN_model_dir = os.path.dirname('data/RNN_models/reddit_casual/reddit_casual_model_e1.pth')
 
         self.conversation_text = tk.Text(self.root, height=8, width=40)  # Decrease the height value here
         self.conversation_text.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
@@ -66,7 +66,7 @@ class Display:
             label.destroy()
         self.suggestion_labels = []
 
-    # Add new suggestions
+        # Add new suggestions
         if self.suggestions != []:
             for i in range(len(self.suggestions)):
                 label = tk.Label(self.suggestion_frame, text=self.suggestions[i], padx=5, pady=5)
@@ -83,14 +83,21 @@ class Display:
         self.conversation_text.see(tk.END)
 
     def select_suggestion(self, suggestion):
-        self.entry.insert(tk.END, ' '+suggestion+' ')
-        self.strokes_saved += len(suggestion)
+        if self.entry.get().endswith(' '):
+            self.entry.insert(tk.END, ' '+suggestion+' ')
+            self.strokes_saved += len(suggestion)
+        else:
+            self.strokes_saved += (len(suggestion)-len(self.extract_last_word()))
+            self.entry.delete(len(self.entry.get())-len(self.extract_last_word()), tk.END)
+            self.entry.insert(tk.END, suggestion)
+
+
         self.strokes_label.config(text=f"Strokes saved: {self.strokes_saved}")
         self.handle_update(None)
 
     def handle_update(self, event):
         if event is None or event.keysym.lower() in VALID_KEYS:
-            self.extract_last_word()
+            self.predict_current_word()
         self.check_space()
 
     def check_space(self):
@@ -99,6 +106,12 @@ class Display:
             # Perform the desired action when a new space is entered
             word = self.extract_last_word()
             self.generate_predictions(word)
+
+    def predict_current_word(self):
+        word = self.extract_last_word().lower()
+        self.suggestions = self.predictor.predict_current(word)
+        if self.suggestions != []:
+            self.display_suggestions()
 
     def toggle_mode(self):
         self.RNN_enabled = not self.RNN_enabled  # Toggle the RNN_enabled variable
