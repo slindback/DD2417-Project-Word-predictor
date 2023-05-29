@@ -61,6 +61,11 @@ class Predictor(object):
             if prediction not in predictions: predictions.append(prediction)
         return predictions
 
+    def predict_current(self, word):
+        filtered_words = [w for w in self.unigram_count.keys() if w.startswith(word)]
+        most_probable = sorted(filtered_words, key=lambda w: self.unigram_count[w], reverse=True)
+        return most_probable[:3]
+
 def main():
     """
     TAKES WORD THROUGH COMMAND LINE AND PRINTS PREDICTIONS

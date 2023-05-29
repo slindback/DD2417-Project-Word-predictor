@@ -65,7 +65,7 @@ class BigramTrainer(object):
 
         rows_to_print.append('-1')
         return rows_to_print
-
+        
 def main():
     """
     Parse command line arguments

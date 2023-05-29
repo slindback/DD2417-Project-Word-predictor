@@ -30,6 +30,10 @@ class WordPredictionDataset(Dataset):
     def __len__(self):
         return len(self.sequences)
 
+def load_vocab(dir):
+    loaded_dict = torch.load(dir+'/vocabulary.pt')
+    keys_list = list(loaded_dict.keys())
+    return keys_list
 
 def main(input_sentence,file,destination,epochs):
     # Check if the model file exists
