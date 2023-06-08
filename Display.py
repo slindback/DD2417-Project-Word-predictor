@@ -19,12 +19,12 @@ class Display:
         self.strokes_label.grid(row=0, column=1, sticky=tk.NE, padx=10, pady=(10, 0))
 
         # Create the toggle button
-        self.toggle_button = tk.Button(self.root, text="RNN", command=self.toggle_mode)
+        self.toggle_button = tk.Button(self.root, text="RNN enabled", command=self.toggle_mode)
         self.toggle_button.grid(row=0, column=0, sticky=tk.NW, padx=(10, 0), pady=10)
 
         # Set the initial mode
         self.RNN_enabled = True
-        self.RNN_model_dir = os.path.dirname('data/RNN_models/reddit_casual/reddit_casual_model_e1.pth')
+        self.RNN_model_dir = os.path.dirname('data/RNN_models/reddit_casual/reddit_casual_model_e1_ws2.pth')
 
         self.conversation_text = tk.Text(self.root, height=8, width=40)  # Decrease the height value here
         self.conversation_text.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
@@ -42,15 +42,6 @@ class Display:
 
         self.send_button = tk.Button(self.root, text="Send", command=self.send_message)
         self.send_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
-
-
-    def toggle_mode(self):
-        if self.RNN_enabled:
-            self.RNN_enabled = False
-            self.toggle_button.config(text="Bigram")
-        else:
-            self.RNN_enabled = True
-            self.toggle_button.config(text="RNN")
 
     def clean_word(self, word):
         clean_str = ""
@@ -81,6 +72,8 @@ class Display:
         for label in self.suggestion_labels:
             label.destroy()
         self.conversation_text.see(tk.END)
+        self.strokes_saved = 0
+        self.strokes_label.config(text=f"Strokes saved: {self.strokes_saved}")
 
     def select_suggestion(self, suggestion):
         if self.entry.get().endswith(' '):
@@ -117,23 +110,26 @@ class Display:
         self.RNN_enabled = not self.RNN_enabled  # Toggle the RNN_enabled variable
 
         if self.RNN_enabled:
-            self.toggle_button.config(text="RNN")
+            self.toggle_button.config(text="RNN enabled")
         else:
-            self.toggle_button.config(text="Bigram")
+            self.toggle_button.config(text="Bigram enabled")
 
     def generate_predictions(self, word):
         if self.RNN_enabled:
             # RNN model
-            sentence = self.entry.get().split()
-            self.suggestions = rnn_main(sentence, 'data/cleaned_files/reddit_casual.txt',
-                                         'data/RNN_models/reddit_casual/reddit_casual_model_e1.pth', 1)
+            print("RNN predictions:\n-----------------")
+            #sentence = self.entry.get().split()
+            self.suggestions = rnn_main([word], 'data/cleaned_files/reddit_casual.txt',
+                                         'data/RNN_models/reddit_casual/reddit_casual_model_e1_ws2.pth', 3)
         else:
             # Bigram model
+            print("Bigram predictions:\n-----------------")
             try:
                 self.suggestions = self.predictor.predict(word)
             except:
                 self.suggestions = []
-
+        print('word:',word)
+        print('predictions:',self.suggestions,'\n')
         self.display_suggestions()
 
     def extract_last_word(self):
